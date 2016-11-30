@@ -1,18 +1,36 @@
 {
-  "name": "es6-scss",
-  "version": "1.0.0",
-  "author": "rt33 <rt33@lastcycle.com>",
-  "license": "MIT",
-  "repository": {
-    "url": "https://github.com/rt33/es6-scss.git",
-    "type": "git"
-  },
-  "main": "index.js",
+  "name": "es6-pug-scss",
+  "version": "0.0.1",
+  "license": "WTFPL",
   "scripts": {
+    "autoprefixer": "postcss -r --use autoprefixer --config autoprefixer.json \"dist/css/**/*.css\"",
+    "build:css": "cpx \"src/**/*.css\" dist",
+    "build:html": "cpx \"src/**/*.html\" dist",
+    "build:img": "cpx \"src/**/*.{jpg,jpeg,png,webp,bmp}\" dist",
+    "build:js": "globar \"src/js/**/*.js\" --outfile=dist/js -v",
+    "build:pug": "pug src/pug --out dist --pretty",
+    "build:scss": "node-sass ./src/scss -o ./dist/css --output-style expanded && npm run autoprefixer",
     "check": "npm-check",
+    "clean": "rimraf ./dist",
+    "sasslint": "sass-lint -c .sass-lint.yml -v -q",
+    "cpx:css": "cpx \"src/**/*.css\" dist -v",
+    "cpx:html": "cpx \"src/**/*.html\" dist -v",
+    "csscomb": "bin/scsscomb",
+    "csscomb:precommit": "bin/scsscomb --precommit",
+    "dev": "npm-run-all clean build:scss -p watch:** serve",
     "eslint": "eslint src/js",
     "fixpack": "fixpack",
-    "jscs": "jscs src/js -e"
+    "jscs": "jscs src/js -e",
+    "pre-commit": "npm-run-all eslint jscs csscomb",
+    "serve": "http-server ./dist -p 8080",
+    "start": "npm-run-all clean build:** -p serve",
+    "test": "npm-run-all sasslint csscomb jscs eslint",
+    "watch:css": "watch \"npm run build:css\" src/css --wait 1 --interval 1",
+    "watch:html": "watch \"npm run build:html\" src/html --wait 1 --interval 1",
+    "watch:img": "watch \"npm run build:img\" src/img --wait 1 --interval 1",
+    "watch:js": "watch \"npm run build:js\" src/js --wait 1 --interval 1",
+    "watch:pug": "watch \"npm run build:pug\" src/pug --wait 1 --interval 1",
+    "watch:scss": "watch \"npm run build:scss\" src/scss --wait 1 --interval 1"
   },
   "browserify": {
     "transform": [
@@ -21,8 +39,7 @@
         {
           "sourceMap": true
         }
-      ],
-      "envify"
+      ]
     ]
   },
   "dependencies": {
@@ -41,7 +58,9 @@
     "babel-register": "^6.18.0",
     "babelify": "^7.3.0",
     "browserify": "^13.1.1",
+    "browserify-directory": "^1.0.2",
     "browserify-incremental": "^3.1.1",
+    "cpx": "^1.5.0",
     "csscomb": "^3.1.7",
     "eslint": "^3.10.2",
     "eslint-config-airbnb-base": "^10.0.1",
@@ -50,11 +69,25 @@
     "execa": "^0.5.0",
     "fixpack": "^2.3.1",
     "globar": "^0.11.0",
+    "http-server": "^0.9.0",
+    "jscs": "^3.0.7",
     "node-sass": "^3.13.0",
     "npm-check": "^5.4.0",
-    "path": "^0.12.7",
+    "npm-run-all": "^3.1.1",
+    "postcss-cli": "^2.6.0",
+    "pre-commit": "^1.1.3",
     "pug": "^2.0.0-beta6",
+    "pug-cli": "^1.0.0-alpha6",
+    "rimraf": "^2.5.4",
+    "sass-lint": "^1.10.2",
+    "watch": "^1.0.1",
     "watchify": "^3.7.0",
     "yargs": "^6.4.0"
-  }
+  },
+  "pre-commit": [
+    "sasslint",
+    "csscomb:precommit",
+    "jscs",
+    "eslint"
+  ]
 }

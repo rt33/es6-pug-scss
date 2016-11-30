@@ -7,20 +7,25 @@ const argv = require('yargs').boolean('precommit').argv;
 const config = require(`${process.cwd()}/.csscomb.scss.json`);
 const Comb = require("csscomb");
 const comb = new Comb(config);
+const target = ['src/scss/','src/css'];
 
-comb.processDirectory('src/scss/').then((val) => {
-  const changedCount = val.filter((el) => {
-    if (el === 1) {
-      return el;
+function scsscomb(path){
+  comb.processDirectory(path).then((val) => {
+    const changedCount = val.filter((el) => {
+      if (el === 1) {
+        return el;
+      }
+    }).length;
+    console.log('scsscomb completed!! changed', changedCount);
+    if (changedCount && argv.precommit) {
+      console.log('When the pre-commit tasks, if it have any changes, process error');
+      process.exit(1);
     }
-  }).length;
-  console.log('scsscomb completed!! changed', changedCount);
-  if (changedCount && argv.precommit) {
-    console.log('When the pre-commit tasks, if it have any changes, process error');
+  }).catch((err) => {
+    console.log('scsscomb error!!');
+    console.log(err.stack);
     process.exit(1);
-  }
-}).catch((err) => {
-  console.log('scsscomb error!!');
-  console.log(err.stack);
-  process.exit(1);
-});
+  });
+}
+
+target.forEach((elem) => scsscomb(elem));

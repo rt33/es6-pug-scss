@@ -1,6 +1,6 @@
 root = true
 
-[*.{html,scss,js,md},pug]
+[*.{html,scss,js,md,pug}]
 charset = utf-8
 end_of_line = lf
 indent_style = space

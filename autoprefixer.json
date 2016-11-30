@@ -1,0 +1,18 @@
+{
+  "autoprefixer": {
+    "browsers": [
+      "Explorer >= 9",
+      "Firefox >= 34",
+      "Chrome >= 39",
+      "last 2 Edge versions",
+      "last 2 Safari versions",
+      "Android >= 4",
+      "iOS >= 7",
+      "ChromeAndroid >= 39",
+      "FirefoxAndroid >= 34",
+      "last 2 UCAndroid versions",
+      "last 2 Samsung versions",
+      "last 2 ExplorerMobile versions"
+    ]
+  }
+}
