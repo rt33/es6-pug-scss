@@ -4,7 +4,9 @@ __Must create files in `./src`__
 
 ### Usage:
 
-`npm i` or `yarn i`
+`npm i -g yarn`
+
+`yarn`
 
 `npm run dev` : watch files and run server
 `npm start` : build and run server
